@@ -25,3 +25,14 @@ for inventory in inventories:
 # Get the biggest Calories
 largestCalories = max(totalCaloriesArr)
 print('Largest Calories : ', largestCalories, '\n')
+
+# Part 2
+# Get the top 3 biggest Calories
+# and then get the total of those 3 Calories
+
+# Sort the totalCaloriesArr by DESC
+totalCaloriesArr.sort(reverse=True)
+
+# Get the total of top 3 biggest Calories
+top3BiggestCalories = sum(totalCaloriesArr[0:3])
+print('Top 3 biggest Calories : ', top3BiggestCalories, '\n')
