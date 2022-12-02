@@ -53,31 +53,27 @@ class Player:
 # Create a dictionary to store the score value
 score = {'lost': 0, 'draw': 3, 'won': 6}
 
-player1 = Player('Another Elves', 'A', 'B', 'C')
-player2 = Player('You', 'X', 'Y', 'Z')
-
-
 class Game:
     def __init__(self, player1, player2):
-        player1 = Player(player1, 'A', 'B', 'C')
-        player2 = Player(player2, 'X', 'Y', 'Z')
+        self.player1 = Player(player1, 'A', 'B', 'C')
+        self.player2 = Player(player2, 'X', 'Y', 'Z')
 
-    def play(self, playround):
+    def play(self, playRound):
         shakesResult = playRound.split(' ')
 
         for result in shakesResult:
-            if ((result == player1.rock()) or (result == player1.paper()) or (result == player1.scissor())):
-                player1.play(result)
+            if ((result == self.player1.rock()) or (result == self.player1.paper()) or (result == self.player1.scissor())):
+                self.player1.play(result)
             else:
-                player2.play(result)
+                self.player2.play(result)
 
     def result(self):
-        player1Rock = player1.selection() == player1.rock()
-        player1Paper = player1.selection() == player1.paper()
-        player1Scissor = player1.selection() == player1.scissor()
-        player2Rock = player2.selection() == player2.rock()
-        player2Paper = player2.selection() == player2.paper()
-        player2Scissor = player2.selection() == player2.scissor()
+        player1Rock = self.player1.selection() == self.player1.rock()
+        player1Paper = self.player1.selection() == self.player1.paper()
+        player1Scissor = self.player1.selection() == self.player1.scissor()
+        player2Rock = self.player2.selection() == self.player2.rock()
+        player2Paper = self.player2.selection() == self.player2.paper()
+        player2Scissor = self.player2.selection() == self.player2.scissor()
 
         player1Win = (player1Rock & player2Scissor) | (
             player1Paper & player2Rock) | (player1Scissor & player2Paper)
@@ -86,16 +82,16 @@ class Game:
             player2Paper & player1Rock) | (player2Scissor & player1Paper)
 
         if player1Win:
-            player1.addScore(score['won'])
-            player2.addScore(score['lost'])
+            self.player1.addScore(score['won'])
+            self.player2.addScore(score['lost'])
             return
         elif player2Win:
-            player1.addScore(score['lost'])
-            player2.addScore(score['won'])
+            self.player1.addScore(score['lost'])
+            self.player2.addScore(score['won'])
             return
         else:
-            player1.addScore(score['draw'])
-            player2.addScore(score['draw'])
+            self.player1.addScore(score['draw'])
+            self.player2.addScore(score['draw'])
             return
 
 
