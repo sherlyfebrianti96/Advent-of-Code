@@ -27,12 +27,13 @@ def getPriorities(compartments):
     itemType = ''
 
     for item in compartment1:
-        isItemType = False
+        isItemType = []
         for compartment in compartmentN:
-            if item in compartment:
-                isItemType = True
+            isItemType.append(item in compartment)
 
-        if isItemType:
+        if False in isItemType:
+            pass
+        else:
             itemType = item
 
     # Get the priority of this rucksack's item type
@@ -41,7 +42,7 @@ def getPriorities(compartments):
     print('itemType : ', itemType, '\n')
     print('rucksackPriority : ', rucksackPriority, '\n')
 
-    return rucksackPriority
+    return int(rucksackPriority)
 
 
 totalOfPriorities = 0
@@ -58,6 +59,32 @@ for rucksack in rucksacks:
     compartment2 = rucksack[itemsPerCompartment:numberOfItemsInRucksack]
 
     totalOfPriorities += getPriorities([compartment1, compartment2])
+
+print('\n============\n')
+print('Total of the priorities : ', totalOfPriorities)
+print('\n============\n')
+
+
+# Part 2
+# Make the number of priorities become flexible
+
+rucksacks = bulk.split('\n')
+
+totalOfPriorities = 0
+
+numberOfLines = 3
+
+numberOfGroup = int(len(rucksacks) / numberOfLines)
+
+# Separate each group by three lines
+for groupIndex in range(numberOfGroup):
+    lastIndex = (groupIndex + 1) * numberOfLines
+    startingIndex = lastIndex - numberOfLines
+    compartments = rucksacks[startingIndex:lastIndex]
+
+    print('-------\n')
+    print('compartments : ', compartments)
+    totalOfPriorities += getPriorities(compartments)
 
 print('\n============\n')
 print('Total of the priorities : ', totalOfPriorities)
