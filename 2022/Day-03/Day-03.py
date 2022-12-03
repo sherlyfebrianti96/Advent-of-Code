@@ -19,8 +19,32 @@ rucksacks = bulk.split('\n')
 # with order a-z and A-Z
 priorities = list(string.ascii_letters)
 
-totalOfPriorities = 0
 
+def getPriorities(compartments):
+    compartment1 = compartments[0]
+    compartmentN = compartments[1:len(compartments)]
+
+    itemType = ''
+
+    for item in compartment1:
+        isItemType = False
+        for compartment in compartmentN:
+            if item in compartment:
+                isItemType = True
+
+        if isItemType:
+            itemType = item
+
+    # Get the priority of this rucksack's item type
+    rucksackPriority = priorities.index(itemType) + 1
+
+    print('itemType : ', itemType, '\n')
+    print('rucksackPriority : ', rucksackPriority, '\n')
+
+    return rucksackPriority
+
+
+totalOfPriorities = 0
 for rucksack in rucksacks:
     numberOfCompartment = 2
     numberOfItemsInRucksack = len(rucksack)
@@ -33,21 +57,7 @@ for rucksack in rucksacks:
     compartment1 = rucksack[0:itemsPerCompartment]
     compartment2 = rucksack[itemsPerCompartment:numberOfItemsInRucksack]
 
-    itemType = ''
-
-    # Check which one is appearing in both compartments
-    for item in compartment1:
-        if item in compartment2:
-            itemType = item
-
-    # Get the priority of this rucksack's item type
-    rucksackPriority = priorities.index(itemType) + 1
-
-    print('itemType : ', itemType, '\n')
-    print('rucksackPriority : ', rucksackPriority, '\n')
-
-    # Add the rucksack's priority to the total
-    totalOfPriorities += rucksackPriority
+    totalOfPriorities += getPriorities([compartment1, compartment2])
 
 print('\n============\n')
 print('Total of the priorities : ', totalOfPriorities)
