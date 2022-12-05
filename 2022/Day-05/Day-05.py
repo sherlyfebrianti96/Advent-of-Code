@@ -76,6 +76,11 @@ for instructionData in instructions:
 
     # Visually, the items is moved one by one per item
     # So it means we will order of the items will be reversed
+    # 
+    # BIG NOTE :
+    # For the Part 2, we can just simply remove this `reverse` part
+    # because for the Part 2, the big cargo crane is so fancy
+    # so that it can move the multiple items all at once
     items.reverse()
     print('items to move  : ', items)
 
