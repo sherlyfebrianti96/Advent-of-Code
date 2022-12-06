@@ -2,11 +2,15 @@
 with open('./Day-06.input.txt') as f:
     bulk = f.read()
     # print(bulk)
+    
+# bulk = input("Enter the datastream : ")
 
 # The input will be only 1 line of text
 # Separate each character of that line
 packet = list(bulk)
 
+# BIG Note :
+# For the part 2, you can just change this to 14
 numberOfCharactersInSequence = 4
 
 firstMarker = 0
