@@ -7,35 +7,68 @@ with open('./Day-07.input.txt') as f:
 commands = bulk.split('\n')
 
 
+def arrangeFolder(fs: dict, activeDirectory: list, newDir: str):
+    directories = list(activeDirectory)
 
+    if (len(activeDirectory) == 0):
+        fs[dir] = {}
+
+    while (len(directories) > 0):
+        currentDir = directories[0]
+        fs[currentDir] = {newDir: {}}
+        directories.pop(0)
+
+    return fs
+
+
+def arrangeFile(fs: dict, activeDirectory: list, filename: str, filesize: int):
+    directories = list(activeDirectory)
+
+    if (len(activeDirectory) == 0):
+        fs[filename] = filesize
+    else:
+        currentDir = directories[0]
+        directories.pop(0)
+        return arrangeFile(fs[currentDir], directories, filename, filesize)
+
+    return fs
+
+
+filesystem = {}
 
 # Read each folders
 # Arrange each folders and files
 # and get the total size of each folders
-filesystem = {'totalSize': 0, 'content': []}
 activeDirectory = []
 for command in commands:
     if ('$ cd' in command):
         # It means it is changing the active directory
         dir = command.replace('$ cd ', '')
+
         match dir:
             case '/':
                 activeDirectory = []
-                print('activeDirectory : a', activeDirectory)
+                pass
             case '..':
                 activeDirectory.pop()
-                print('activeDirectory : a', activeDirectory)
             case other:
                 activeDirectory.append(dir)
-                print('activeDirectory : a', activeDirectory)
+
     elif ('$ ls' in command):
         # It means it is showing list of current active directory
         pass
     elif ('dir ' in command):
         # It means there will be a directory inside this current active directory
         dir = command.replace('dir ', '')
-        filesystem = getContents(filesystem, activeDirectory, 'dir', dir)
-        print('filesystem : ', filesystem)
+
+        arrangeFolder(filesystem, activeDirectory, dir)
+
     else:
         # It means the reset is the files information with it sizes
-        pass
+        fileData = command.split(' ')
+
+        arrangeFile(filesystem, activeDirectory,
+                    fileData[1], int(fileData[0]))
+
+
+print('filesystem : ', filesystem)
