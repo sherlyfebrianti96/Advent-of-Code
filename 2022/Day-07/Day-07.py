@@ -32,6 +32,24 @@ def arrangeFile(fs: dict, activeDirectory: list, filename: str, filesize: int):
     return fs
 
 
+def totalSize(fs: dict, total: int):
+    print('fs', fs)
+    for itemKey in list(fs):
+        item = fs[itemKey]
+        if (isinstance(item, dict)):
+            # this is the folder
+            total += totalSize(item, 0)
+            # This is the file
+            print('folder', itemKey, item)
+        else:
+            # This is the file
+            print('item', itemKey, item)
+            total += item
+
+    print('total', total, '\n')
+    return total
+
+
 filesystem = {}
 
 # Read each folders
@@ -73,3 +91,7 @@ for command in commands:
 
 
 print('filesystem : ', filesystem)
+
+print('\n============\n')
+totalSizesOfFolderThatHasLessThan100000 = 0
+print(totalSize(filesystem.copy(), totalSizesOfFolderThatHasLessThan100000))
