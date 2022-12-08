@@ -100,3 +100,18 @@ print('\n============\n')
 
 part1 = [size for size in arrayOfTotalSizes if size <= 100000]
 print("Answer for Part 1 : ", sum(part1))
+
+print('\n============\n')
+
+#  Part 2
+totalDiskSpace = 7e7 # 70000000
+unusedSpace = abs(totalDiskSpace - arrayOfTotalSizes[-1])
+
+minimumFreeSpace = 3e7 #30000000
+
+part2 = [size for size in arrayOfTotalSizes if (size + unusedSpace) >= minimumFreeSpace]
+
+print('part2 : ', part2, '\n')
+print("Answer for Part 2 : ", min(part2))
+
+print('\n============\n')
