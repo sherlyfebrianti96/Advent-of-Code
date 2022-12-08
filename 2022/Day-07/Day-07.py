@@ -32,23 +32,6 @@ def arrangeFile(fs: dict, activeDirectory: list, filename: str, filesize: int):
     return fs
 
 
-def cleanupFolder(fs: dict, activeDirectory: list):
-    directories = list(activeDirectory)
-
-    if (len(activeDirectory) == 0):
-        for item in list(fs):
-            if (isinstance(fs[item], int)):
-                del fs[item]
-
-    else:
-        currentDir = directories[0]
-        directories.pop(0)
-        if (fs[currentDir]):
-            return cleanupFolder(fs[currentDir], directories)
-
-    return fs
-
-
 filesystem = {}
 
 # Read each folders
