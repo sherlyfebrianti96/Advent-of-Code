@@ -32,21 +32,20 @@ def arrangeFile(fs: dict, activeDirectory: list, filename: str, filesize: int):
     return fs
 
 
-def totalSize(fs: dict, total: int):
-    print('fs', fs)
+def totalSize(fs: dict, total: int, arrayOfTotalSizes: list):
     for itemKey in list(fs):
         item = fs[itemKey]
         if (isinstance(item, dict)):
             # this is the folder
-            total += totalSize(item, 0)
-            # This is the file
-            print('folder', itemKey, item)
+            # print('folder', itemKey, item)
+            total += totalSize(item, 0, arrayOfTotalSizes)
         else:
             # This is the file
-            print('item', itemKey, item)
+            # print('item', itemKey, item)
             total += item
 
     print('total', total, '\n')
+    arrayOfTotalSizes.append(total)
     return total
 
 
@@ -70,8 +69,6 @@ for command in commands:
             case other:
                 activeDirectory.append(dir)
 
-        print('\nactiveDirectory : ', activeDirectory)
-
     elif ('$ ls' in command):
         # It means it is showing list of current active directory
         pass
@@ -94,4 +91,12 @@ print('filesystem : ', filesystem)
 
 print('\n============\n')
 totalSizesOfFolderThatHasLessThan100000 = 0
-print(totalSize(filesystem.copy(), totalSizesOfFolderThatHasLessThan100000))
+arrayOfTotalSizes = []
+print(totalSize(filesystem.copy(), totalSizesOfFolderThatHasLessThan100000, arrayOfTotalSizes))
+
+print('\n============\n')
+print('arrayOfTotalSizes : ', arrayOfTotalSizes)
+print('\n============\n')
+
+part1 = [size for size in arrayOfTotalSizes if size <= 100000]
+print("Answer for Part 1 : ", sum(part1))
