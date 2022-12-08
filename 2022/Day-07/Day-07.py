@@ -10,13 +10,12 @@ commands = bulk.split('\n')
 def arrangeFolder(fs: dict, activeDirectory: list, newDir: str):
     directories = list(activeDirectory)
 
-    if (len(activeDirectory) == 0):
-        fs[dir] = {}
-
-    while (len(directories) > 0):
+    if (len(directories) == 0):
+        if (newDir not in fs):
+            fs[newDir] = {}
+    else:
         currentDir = directories[0]
-        fs[currentDir] = {newDir: {}}
-        directories.pop(0)
+        return arrangeFolder(fs[currentDir], directories[1:len(directories)], newDir)
 
     return fs
 
@@ -24,12 +23,28 @@ def arrangeFolder(fs: dict, activeDirectory: list, newDir: str):
 def arrangeFile(fs: dict, activeDirectory: list, filename: str, filesize: int):
     directories = list(activeDirectory)
 
-    if (len(activeDirectory) == 0):
+    if (len(directories) == 0):
         fs[filename] = filesize
     else:
         currentDir = directories[0]
+        return arrangeFile(fs[currentDir], directories[1:len(directories)], filename, filesize)
+
+    return fs
+
+
+def cleanupFolder(fs: dict, activeDirectory: list):
+    directories = list(activeDirectory)
+
+    if (len(activeDirectory) == 0):
+        for item in list(fs):
+            if (isinstance(fs[item], int)):
+                del fs[item]
+
+    else:
+        currentDir = directories[0]
         directories.pop(0)
-        return arrangeFile(fs[currentDir], directories, filename, filesize)
+        if (fs[currentDir]):
+            return cleanupFolder(fs[currentDir], directories)
 
     return fs
 
@@ -54,9 +69,12 @@ for command in commands:
             case other:
                 activeDirectory.append(dir)
 
+        print('\nactiveDirectory : ', activeDirectory)
+
     elif ('$ ls' in command):
         # It means it is showing list of current active directory
         pass
+
     elif ('dir ' in command):
         # It means there will be a directory inside this current active directory
         dir = command.replace('dir ', '')
