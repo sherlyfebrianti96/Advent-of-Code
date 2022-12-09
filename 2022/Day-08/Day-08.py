@@ -4,6 +4,7 @@ with open('./Day-08.input.txt') as f:
     # print(bulk)
 
 visibleTrees = 0
+highestScenicScore = 0
 
 coveredX = []
 coveredY = []
@@ -76,7 +77,74 @@ for rowIndex, row in enumerate(rows):
             else:
                 visibleTrees += 1
 
+            # Part 2
+            # Highest scenic score
+            # It means they want to find the view that can see trees as much as possible
+            numberOfTreesVisibleTop = 0
+            numberOfTreesVisibleLeft = 0
+            numberOfTreesVisibleRight = 0
+            numberOfTreesVisibleBottom = 0
+
+            # numberOfTreesVisibleTop = [
+            #     item for item in surroundingTopTrees if item <= tree]
+            # numberOfTreesVisibleLeft = [
+            #     item for item in surroundingLeftTrees if item <= tree]
+            # numberOfTreesVisibleRight = [
+            #     item for item in surroundingRightTrees if item <= tree]
+            # numberOfTreesVisibleBottom = [
+            #     item for item in surroundingBottomTrees if item <= tree]
+
+            # numberOfTreesVisibleTop
+            # Reverse the SurroundingTopTrees
+            # So we can check it from the tree nearest to our current tree
+            surroundingTopTrees.reverse()
+            for item in surroundingTopTrees:
+                numberOfTreesVisibleTop += 1
+
+                if item >= tree:
+                    # If the current tree is higher than our current tree,
+                    # it means it is blocking the rest of trees from us
+                    break
+
+            # numberOfTreesVisibleLeft
+            # Reverse the surroundingLeftTrees
+            # So we can check it from the tree nearest to our current tree
+            surroundingLeftTrees.reverse()
+            for item in surroundingLeftTrees:
+                numberOfTreesVisibleLeft += 1
+
+                if item >= tree:
+                    # If the current tree is higher than our current tree,
+                    # it means it is blocking the rest of trees from us
+                    break
+
+            # numberOfTreesVisibleRight
+            for item in surroundingRightTrees:
+                numberOfTreesVisibleRight += 1
+
+                if item >= tree:
+                    # If the current tree is higher than our current tree,
+                    # it means it is blocking the rest of trees from us
+                    break
+
+            # numberOfTreesVisibleBottom
+            for item in surroundingBottomTrees:
+                numberOfTreesVisibleBottom += 1
+
+                if item >= tree:
+                    # If the current tree is higher than our current tree,
+                    # it means it is blocking the rest of trees from us
+                    break
+
+            scenicScore = numberOfTreesVisibleTop * numberOfTreesVisibleLeft * \
+                numberOfTreesVisibleRight * numberOfTreesVisibleBottom
+
+            if (scenicScore > highestScenicScore):
+                highestScenicScore = scenicScore
+
 
 print('\n============\n')
 print('visibleTrees : ', visibleTrees)
+print('\n============\n')
+print('highestScenicScore : ', highestScenicScore)
 print('\n============\n')
