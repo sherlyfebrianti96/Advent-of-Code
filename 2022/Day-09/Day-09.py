@@ -5,25 +5,20 @@ with open('./Day-09.input.txt') as f:
 
 commands = bulk.split('\n')
 
-initialX = {"x": 0, "y": 0}
-prevHead = {"x": 0, "y": 0}
-head = {"x": 0, "y": 0}
-tail = {"x": 0, "y": 0}
+initialPosition = {"x": 0, "y": 0}
 
 
 def coordinateStr(coordinate: dict):
     return ','.join([str(item) for item in coordinate.values()])
 
 
-numberOfStepsTail = 0
-
-steppedByTail = [coordinateStr(tail)]
-
-for command in commands:
-    data = command.split(' ')
-
-    direction = data[0]
-    numberOfSteps = int(data[1])
+# Function for checking the Stepping process
+def steppingProcess(direction: str, numberOfSteps: int, inputHead: dict, inputTail: dict):
+    head = inputHead.copy()
+    tail = inputTail.copy()
+    numberOfStepsTail = 0
+    steppedByTail = []
+    prevHead = {"x": head['x'], "y": head['y']}
 
     print('\n==================\n')
     print('direction : ', direction)
@@ -124,11 +119,37 @@ for command in commands:
             # Do nothing
             pass
 
-print('steppedByTail : ', steppedByTail)
-steppedByTailUnique = set(steppedByTail)
+    result = {
+        'numberOfStepsTail': numberOfStepsTail,
+        'steppedByTail': steppedByTail,
+        'head': head,
+        'tail': tail
+    }
+    print('\n--------------\n')
+    print('result : ', result)
 
+    return result
+
+
+knot1 = {"x": 0, "y": 0}
+knot2 = {"x": 0, "y": 0}
+knot2Stepped = [coordinateStr(knot2)]
+
+for command in commands:
+    data = command.split(' ')
+
+    direction = data[0]
+    numberOfSteps = int(data[1])
+
+    result = steppingProcess(direction, numberOfSteps, knot1, knot2)
+
+    # Update the Knots data
+    knot1 = result['head']
+    knot2 = result['tail']
+    knot2Stepped += result['steppedByTail']
+    print('knot2Stepped : ', knot2Stepped)
+
+knot2SteppedUnique = set(knot2Stepped)
 print('\n==================\n')
-print('numberOfStepsTail : ', numberOfStepsTail)
-print('\n==================\n')
-print('steppedByTailUnique : ', len(steppedByTailUnique))
+print('knot2SteppedUnique : ', len(knot2SteppedUnique))
 print('\n==================\n')
