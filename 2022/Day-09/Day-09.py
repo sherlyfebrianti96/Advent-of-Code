@@ -79,9 +79,12 @@ def steppingProcess(direction: str, numberOfSteps: int, inputHead: dict, inputTa
     return result
 
 
-knot1 = {"x": 0, "y": 0}
-knot2 = {"x": 0, "y": 0}
-knot2Stepped = [coordinateStr(knot2)]
+numberOfKnots = 2
+
+knots = [{"x": 0, "y": 0} for i in range(0, numberOfKnots)]
+knotsStepped = [[coordinateStr(knot)] for knot in knots]
+print('knots : ', knots)
+print('knotsStepped : ', knotsStepped)
 
 for command in commands:
     data = command.split(' ')
@@ -89,15 +92,20 @@ for command in commands:
     direction = data[0]
     numberOfSteps = int(data[1])
 
-    result = steppingProcess(direction, numberOfSteps, knot1, knot2)
+    for index, knot in enumerate(knots):
+        if (index == 0):
+            pass
+        else:
+            result = steppingProcess(
+                direction, numberOfSteps, knots[index - 1], knot)
 
-    # Update the Knots data
-    knot1 = result['head']
-    knot2 = result['tail']
-    knot2Stepped += result['steppedByTail']
-    print('knot2Stepped : ', knot2Stepped)
+            # Update the Knots data
+            knots[index-1] = result['head']
+            knots[index] = result['tail']
+            knotsStepped[index] += result['steppedByTail']
 
-knot2SteppedUnique = set(knot2Stepped)
+
+lastKnotSteppedUnique = set(knotsStepped[-1])
 print('\n==================\n')
-print('knot2SteppedUnique : ', len(knot2SteppedUnique))
+print('lastKnotSteppedUnique : ', len(lastKnotSteppedUnique))
 print('\n==================\n')
