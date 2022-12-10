@@ -30,94 +30,42 @@ def steppingProcess(direction: str, numberOfSteps: int, inputHead: dict, inputTa
     # If the direction is LEFT, it means the X is -1
     # If the direction is RIGHT, it means the X is +1
 
-    match direction:
-        case 'U':
-            for step in range(0, numberOfSteps):
+    for step in range(0, numberOfSteps):
+        match direction:
+            case 'U':
                 print('\n--------------\n')
                 print("UP :")
                 head["y"] -= 1
-
-                # Check if the Head and Tail position is side-by-side
-                # If it is not side-by-side, we need to make the tail take over the last position of the head
-                distanceX = abs(head["x"] - tail["x"])
-                distanceY = abs(head["y"] - tail["y"])
-                if (distanceX > 1 or distanceY > 1):
-                    tail['x'] = prevHead['x']
-                    tail['y'] = prevHead['y']
-                    numberOfStepsTail += 1
-                    steppedByTail.append(coordinateStr(tail))
-
-                print('head : ', head)
-                print('tail : ', tail)
-                prevHead['x'] = head['x']
-                prevHead['y'] = head['y']
-            pass
-        case 'D':
-            for step in range(0, numberOfSteps):
+            case 'D':
                 print('\n--------------\n')
                 print("DOWN :")
                 head["y"] += 1
-
-                # Check if the Head and Tail position is side-by-side
-                # If it is not side-by-side, we need to make the tail take over the last position of the head
-                distanceX = abs(head["x"] - tail["x"])
-                distanceY = abs(head["y"] - tail["y"])
-                if (distanceX > 1 or distanceY > 1):
-                    tail['x'] = prevHead['x']
-                    tail['y'] = prevHead['y']
-                    numberOfStepsTail += 1
-                    steppedByTail.append(coordinateStr(tail))
-
-                print('head : ', head)
-                print('tail : ', tail)
-                prevHead['x'] = head['x']
-                prevHead['y'] = head['y']
-            pass
-        case 'L':
-            for step in range(0, numberOfSteps):
+            case 'L':
                 print('\n--------------\n')
                 print("LEFT :")
                 head["x"] -= 1
-
-                # Check if the Head and Tail position is side-by-side
-                # If it is not side-by-side, we need to make the tail take over the last position of the head
-                distanceX = abs(head["x"] - tail["x"])
-                distanceY = abs(head["y"] - tail["y"])
-                if (distanceX > 1 or distanceY > 1):
-                    tail['x'] = prevHead['x']
-                    tail['y'] = prevHead['y']
-                    numberOfStepsTail += 1
-                    steppedByTail.append(coordinateStr(tail))
-
-                print('head : ', head)
-                print('tail : ', tail)
-                prevHead['x'] = head['x']
-                prevHead['y'] = head['y']
-            pass
-        case 'R':
-            for step in range(0, numberOfSteps):
+            case 'R':
                 print('\n--------------\n')
                 print("RIGHT :")
                 head["x"] += 1
+            case other:
+                # Do nothing
+                pass
 
-                # Check if the Head and Tail position is side-by-side
-                # If it is not side-by-side, we need to make the tail take over the last position of the head
-                distanceX = abs(head["x"] - tail["x"])
-                distanceY = abs(head["y"] - tail["y"])
-                if (distanceX > 1 or distanceY > 1):
-                    tail['x'] = prevHead['x']
-                    tail['y'] = prevHead['y']
-                    numberOfStepsTail += 1
-                    steppedByTail.append(coordinateStr(tail))
+        # Check if the Head and Tail position is side-by-side
+        # If it is not side-by-side, we need to make the tail take over the last position of the head
+        distanceX = abs(head["x"] - tail["x"])
+        distanceY = abs(head["y"] - tail["y"])
+        if (distanceX > 1 or distanceY > 1):
+            tail['x'] = prevHead['x']
+            tail['y'] = prevHead['y']
+            numberOfStepsTail += 1
+            steppedByTail.append(coordinateStr(tail))
 
-                print('head : ', head)
-                print('tail : ', tail)
-                prevHead['x'] = head['x']
-                prevHead['y'] = head['y']
-            pass
-        case other:
-            # Do nothing
-            pass
+        print('head : ', head)
+        print('tail : ', tail)
+        prevHead['x'] = head['x']
+        prevHead['y'] = head['y']
 
     result = {
         'numberOfStepsTail': numberOfStepsTail,
