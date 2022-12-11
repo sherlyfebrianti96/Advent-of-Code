@@ -71,3 +71,63 @@ console.log(
   signalStrenghts.reduce((a, b) => a + b, 0)
 );
 console.log("\n==========================\n");
+
+const cycleRange = 40;
+const crtRows = [];
+let crtRow = [];
+currentCycle = 1;
+
+const spriteSize = 3;
+
+let currentPosition = 0;
+let oldPosition = 0;
+
+/* Part 2 */
+data.map((command, commandIndex) => {
+  console.log("\n\n");
+  console.log("command = ", command);
+  console.log("currentCycle = ", currentCycle);
+
+  currentPosition += getXValue(command);
+  console.log("debug oldPosition : ", oldPosition);
+  console.log("debug currentPosition : ", currentPosition);
+
+  const cycleCount = getCycleCount(command);
+  currentCycle += cycleCount;
+
+  /* Get the # or . */
+  for (let i = 0; i < getCycleCount(command); i++) {
+    const activeNewRowPosition = crtRow.length;
+    console.log("activeNewRowPosition : ", activeNewRowPosition);
+
+    const leftRange = oldPosition;
+    const rightRange = leftRange + spriteSize - 1;
+    console.log("leftRange : ", leftRange);
+    console.log("rightRange : ", rightRange);
+    if (
+      activeNewRowPosition >= leftRange &&
+      activeNewRowPosition <= rightRange
+    ) {
+      crtRow.push("#");
+    } else {
+      crtRow.push(".");
+    }
+
+    console.log("crtRow.length : ", crtRow.length);
+
+    if (cycleRange === crtRow.length) {
+      crtRows.push(crtRow);
+      crtRow = [];
+    }
+  }
+  console.log("crtRow : ", crtRow.join(""));
+
+  oldPosition = currentPosition;
+});
+
+console.log("\n==========================\n");
+console.log(
+  "crtRows : ",
+  crtRows.map((row) => row.join(""))
+);
+console.log("\n==========================\n");
