@@ -52,4 +52,4 @@ Starting items: 50, 61, 52, 58, 86, 68, 97
 Operation: new = old + 4
 Test: divisible by 11
 	If true: throw to monkey 5
-	If false: throw to monkey 4`
+	If false: throw to monkey 4`;

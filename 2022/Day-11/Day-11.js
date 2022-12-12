@@ -41,7 +41,7 @@ data.map((command) => {
   } else if (command.includes(operationsPattern)) {
     /* Operations */
     const operationsData = command.replace(operationsPattern, "");
-    operations[activeMonkey] = operationsData.replaceAll(" ", "");
+    operations[activeMonkey] = operationsData;
   } else if (command.includes(divisiblePattern)) {
     /* Divisible */
     const divisibleData = Number(command.replace(/\D/g, ""));
@@ -65,7 +65,7 @@ console.log("divisible :", divisible);
 console.log("divisibleTrue :", divisibleTrue);
 console.log("divisibleFalse :", divisibleFalse);
 
-const numberOfRound = 20;
+const numberOfRound = 10000;
 const inspectedItems = Array(monkeys.size).fill(0);
 
 for (let round = 0; round < numberOfRound; round++) {
@@ -84,10 +84,23 @@ for (let round = 0; round < numberOfRound; round++) {
       inspectedItems[monkey] += 1;
 
       const operation = operations[monkey].replaceAll("old", item);
+
       const worryLevel = eval(operation);
       console.log("worryLevel : ", worryLevel);
 
-      const worryLevelAfterBored = Math.floor(worryLevel / 3);
+      // const worryLevelAfterBored = Math.floor(worryLevel / 3);
+
+      /**
+       * Note :
+       * For the Part 2,
+       * since we no longer need to divided the worryLevel by 3,
+       * then it means :
+       * whenever we do the multiplication, it will became huge
+       */
+      const preparedModulo = divisible.reduce((a, b) => a * b, 1);
+      console.log("debug preparedModulo : ", preparedModulo);
+
+      const worryLevelAfterBored = worryLevel % preparedModulo;
       console.log("worryLevelAfterBored : ", worryLevelAfterBored);
 
       /* Parse to next monkey */
@@ -103,7 +116,6 @@ for (let round = 0; round < numberOfRound; round++) {
         console.log("debug nextMonkey : ", nextMonkey);
         items[nextMonkey] = [...items[nextMonkey], worryLevelAfterBored];
       }
-      console.log("Current item : ", item);
     });
     /* Empty the monkey's stash */
     items[monkey] = [];
